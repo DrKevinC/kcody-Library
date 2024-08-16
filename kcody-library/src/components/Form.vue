@@ -25,8 +25,21 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="isAustralian" v-model="formData.isAustralian">
-                                <label class="form-check-label" for="isAustralian">Australian Resident?</label>
+                                <div>
+                                    <input type="radio" class="form-check-input" id="isAustralian" name="resident" value="true" 
+                                    @blur="() => validateResident(true)"
+                                    @input="() => validateResident(false)"
+                                    v-model="formData.isAustralian">
+                                    <label class="form-check-label" for="isAustralian">Australian Resident</label>
+                                </div>
+                                <div>
+                                    <input type="radio" class="form-check-input" id="isNotAustralian" name="resident" value="false" 
+                                    @blur="() => validateResident(true)"
+                                    @input="() => validateResident(false)"
+                                    v-model="formData.isAustralian">
+                                    <label class="form-check-label" for="isNotAustralian">Not Australian Resident</label>
+                                </div>
+                                <div v-if="errors.resident" class="text-danger">{{ errors.resident }}</div>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -59,8 +72,8 @@
         </div>
     </div>
     <!-- extra card? -->
-    <!-- <div class="row mt-5" v-if="submittedCards.length">
-        <div class="d-flex flex-wrap justify-content-start">
+    <div class="row mt-5" v-if="submittedCards.length">
+        <!-- <div class="d-flex flex-wrap justify-content-start">
             <div v-for="(card, index) in submittedCards" :key="index" class="card m-2" style="width: 18rem;">
                 <div class="card-header">
                     User Information
@@ -73,15 +86,15 @@
                     <li class="list-group-item">Reason: {{ card.reason }}</li>
                 </ul>
             </div>
-        </div>
-    </div> -->
-    <DataTable :value="submittedCards" tableStyle="min-width: 20rem">
-        <Column field="username" header="UserName"></Column>
-        <Column field="password" header="Password"></Column>
-        <Column field="isAustralian" header="isAustralian"></Column>
-        <Column field="gender" header="Gender"></Column>
-        <Column field="reason" header="Reason"></Column>
-    </DataTable>
+        </div> -->
+        <DataTable :value="submittedCards" tableStyle="min-width: 20rem">
+            <Column field="username" header="UserName"></Column>
+            <Column field="password" header="Password"></Column>
+            <Column field="isAustralian" header="isAustralian"></Column>
+            <Column field="gender" header="Gender"></Column>
+            <Column field="reason" header="Reason"></Column>
+        </DataTable>
+    </div>
     
 </template>
 
@@ -103,6 +116,7 @@
     const submitForm = () => {
         validateName(true);
         validatePassword(true);
+        validateResident(true);
         validateGender(true);
         validateReason(true);
         if (!errors.value.username && !errors.value.password) {
@@ -157,6 +171,15 @@
             if (blur) errors.value.password = "Password must contain at least one special character."
         } else {
             errors.value.password = null;
+        }
+    }
+
+    const validateResident = (blur) => {
+        const isResident = formData.value.resident;
+        if (!isResident){
+            if (blur) errors.value.resident = "Residence status must be selected."
+        } else {
+            errors.value.gender = null;
         }
     }
 
