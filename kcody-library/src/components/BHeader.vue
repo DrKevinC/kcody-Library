@@ -1,3 +1,24 @@
+<script setup>
+  import { ref } from 'vue'
+  const isAuthenticated = ref(false)
+
+  const authenticate = () => {
+    if (window.localStorage.getItem('isAuthenticated') == true) {
+      return isAuthenticated.value = true
+    } else {
+      return isAuthenticated.value = false
+    }
+  }
+
+  const logout = () => {
+    // set local storage and isAuthenticated to false
+    window.localStorage.setItem('isAuthenticated', false)
+    isAuthenticated.value = false
+  }
+
+  authenticate()
+</script>
+
 <template>
   <!-- Using Bootstrap's Header template (starter code) -->
   <!-- https://getbootstrap.com/docs/5.0/examples/headers/ -->
@@ -5,10 +26,20 @@
     <header class="d-flex justify-content-center py-3">
       <ul class="nav nav-pills">
         <li class="nav-item">
-          <a href="#" class="nav-link active" aria-current="page">Home (Week 4)</a>
+          <router-link to="/" class="nav-link" active-class="active" aria-current="page"
+            >Home (Week 5)</router-link
+          >
         </li>
-        <li class="nav-item"><a href="#" class="nav-link">About</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Contact us</a></li>
+        <li class="nav-item">
+          <div v-if="isAuthenticated"><router-link to="/about" class="nav-link" active-class="active">About</router-link></div>
+          <div v-else ><router-link to="/denied" class="nav-link" active-class="active">About</router-link></div>
+        </li>
+        <li v-if="!isAuthenticated" class="nav-item">
+          <router-link to="/login" class="nav-link" active-class="active">Login</router-link>
+        </li>
+        <li v-if="isAuthenticated" class="nav-item">
+          <button @click="logout" class="nav-link">Logout</button>
+        </li>
       </ul>
     </header>
   </div>
