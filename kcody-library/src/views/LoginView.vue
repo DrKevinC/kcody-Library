@@ -42,6 +42,10 @@
 
 <script setup>
 import { ref } from 'vue'
+import { isAuthenticated } from '@/loginData';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const validUser = {
     username: 'Admin',
@@ -69,7 +73,8 @@ const login = () => {
     // Authenticate if correct
     if (validUser.username == loginFormData.value.username) {
         if (validUser.password == loginFormData.value.password) {
-            window.localStorage.setItem("isAuthenticated", true)
+            isAuthenticated.value = true;
+            router.push("/");
         }
     }
 }

@@ -1,22 +1,13 @@
 <script setup>
-  import { ref } from 'vue'
-  const isAuthenticated = ref(false)
+  import { isAuthenticated } from '@/loginData';
+  import { useRouter } from 'vue-router';
 
-  const authenticate = () => {
-    if (window.localStorage.getItem('isAuthenticated') == true) {
-      return isAuthenticated.value = true
-    } else {
-      return isAuthenticated.value = false
-    }
-  }
+  const router = useRouter();
 
   const logout = () => {
-    // set local storage and isAuthenticated to false
-    window.localStorage.setItem('isAuthenticated', false)
-    isAuthenticated.value = false
+    isAuthenticated.value = false;
+    router.push("/login")
   }
-
-  authenticate()
 </script>
 
 <template>
