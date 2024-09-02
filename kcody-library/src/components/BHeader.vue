@@ -31,6 +31,12 @@
         <li v-if="isAuthenticated" class="nav-item">
           <button @click="logout" class="nav-link">Logout</button>
         </li>
+        <li class="nav-item">
+          <router-link to="/firebaseSignin" class="nav-link" active-class="active">Firebase Signin</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/firebaseRegister" class="nav-link" active-class="active">Firebase Register</router-link>
+        </li>
       </ul>
     </header>
   </div>
