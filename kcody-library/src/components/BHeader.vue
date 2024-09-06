@@ -37,6 +37,9 @@
         <li class="nav-item">
           <router-link to="/firebaseRegister" class="nav-link" active-class="active">Firebase Register</router-link>
         </li>
+        <li class="nav-item">
+          <router-link to="/firebaseLogout" class="nav-link" active-class="active">Firebase Logout</router-link>
+        </li>
       </ul>
     </header>
   </div>
