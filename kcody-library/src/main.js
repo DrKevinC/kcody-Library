@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import { createStore } from 'vuex'
 
 import PrimeVue from 'primevue/config'
 import Aura from '@primevue/themes/aura'
@@ -13,6 +14,8 @@ import Aura from '@primevue/themes/aura'
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import firebase from "firebase/compat/app";
+import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -27,10 +30,26 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-initializeApp(firebaseConfig);
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
 const app = createApp(App) // may need to remove this line
 app.use(PrimeVue, { theme: { preset: Aura } })
 app.use(router)
+app.config.globalProperties.$db = db // makes it global?
+
+const store = createStore({
+  state(){
+    return {
+      db: db
+    }
+  },
+  getters: {
+    getDb(state) {
+      return state.db
+    }
+  }
+})
+app.use(store)
 
 // app.component('DataTable', DataTable)
 // app.component('Column', Column)
