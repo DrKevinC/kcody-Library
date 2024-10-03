@@ -52,6 +52,9 @@
         <li class="nav-item">
           <router-link to="/countBookAPI" class="nav-link" active-class="active">Get Book Count API</router-link>
         </li>
+        <li class="nav-item">
+          <router-link to="/getAllBookAPI" class="nav-link" active-class="active">Get All Book API</router-link>
+        </li>
       </ul>
     </header>
   </div>

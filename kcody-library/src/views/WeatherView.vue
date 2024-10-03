@@ -103,7 +103,27 @@ export default {
         //Returned data from API is stored as JSON file in weatherData
         this.weatherData = response.data;
       } catch (error) {
-        console.error("Error fetching weather data:", error);
+        console.error("Error fetching weather data: ", error);
+      }
+    },
+    async searchByCity() {
+      try {
+        // split the search into city name and country code
+        const [ city_name, country_code ] = this.city.split(",").map(function(item) {
+          return item.trim();
+        });
+
+        const limit = 1
+        const url = `http://api.openweathermap.org/geo/1.0/direct?q=${city_name},${country_code}&limit=${limit}&appid=${apikey}`
+        const response = await axios.get(url);
+        const latitude = response.data[0].lat;
+        const longitude = response.data[0].lon;
+        const weatherURL = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apikey}`;
+        await this.fetchWeatherData(weatherURL);
+        this.weatherData.name = city_name
+
+      } catch (error) {
+        console.error("Error fetching location data: ", error)
       }
     }
   }
